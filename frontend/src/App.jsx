@@ -6,138 +6,103 @@ function App() {
   const [users, setUsers] = useState([]);
   const [tasks, setTasks] = useState([]);
 
-  const [registerData, setRegisterData] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const [loginData, setLoginData] = useState({
-    email: "",
-    password: "",
-  });
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
 
-  const [taskData, setTaskData] = useState({
-    name: "",
-    assignedTo: "",
-  });
+  const [taskName, setTaskName] = useState("");
+  const [assignedTo, setAssignedTo] = useState("");
 
-  // REGISTER
-  const handleRegister = () => {
-    const userExists = users.find(
-      (u) => u.email === registerData.email
+  const register = () => {
+    const existingUser = users.find(
+      (u) => u.email === email
     );
 
-    if (userExists) {
-      alert("User already exists!");
+    if (existingUser) {
+      alert("User already exists");
       return;
     }
 
-    setUsers([...users, registerData]);
+    setUsers([
+      ...users,
+      { name, email, password },
+    ]);
 
-    alert("Registration Successful!");
-
-    setRegisterData({
-      name: "",
-      email: "",
-      password: "",
-    });
+    alert("Registered Successfully");
 
     setPage("login");
   };
 
-  // LOGIN
-  const handleLogin = () => {
-    const validUser = users.find(
+  const login = () => {
+    const user = users.find(
       (u) =>
-        u.email === loginData.email &&
-        u.password === loginData.password
+        u.email === loginEmail &&
+        u.password === loginPassword
     );
 
-    if (validUser) {
-      alert("Login Successful!");
+    if (user) {
+      alert("Login Successful");
       setPage("task");
     } else {
       alert("Invalid Email or Password");
     }
   };
 
-  // CREATE TASK
   const createTask = () => {
-    if (
-      taskData.name === "" ||
-      taskData.assignedTo === ""
-    ) {
-      alert("Fill all fields");
-      return;
-    }
+    setTasks([
+      ...tasks,
+      {
+        taskName,
+        assignedTo,
+      },
+    ]);
 
-    setTasks([...tasks, taskData]);
+    setTaskName("");
+    setAssignedTo("");
 
-    setTaskData({
-      name: "",
-      assignedTo: "",
-    });
-
-    alert("Task Created!");
+    alert("Task Created");
   };
 
   return (
     <div className="app">
 
-      <h1 className="title">
-        Team Task Manager
-      </h1>
+      <h1>Team Task Manager</h1>
 
-      {/* REGISTER */}
       {page === "register" && (
         <div className="box">
 
           <h2>Register</h2>
 
           <input
-            type="text"
             placeholder="Name"
-            value={registerData.name}
             onChange={(e) =>
-              setRegisterData({
-                ...registerData,
-                name: e.target.value,
-              })
+              setName(e.target.value)
             }
           />
 
           <input
-            type="email"
             placeholder="Email"
-            value={registerData.email}
             onChange={(e) =>
-              setRegisterData({
-                ...registerData,
-                email: e.target.value,
-              })
+              setEmail(e.target.value)
             }
           />
 
           <input
             type="password"
             placeholder="Password"
-            value={registerData.password}
             onChange={(e) =>
-              setRegisterData({
-                ...registerData,
-                password: e.target.value,
-              })
+              setPassword(e.target.value)
             }
           />
 
-          <button onClick={handleRegister}>
+          <button onClick={register}>
             Register
           </button>
 
-          <p>
-            Already have account?
-          </p>
+          <p>Already have account?</p>
 
           <button
             onClick={() => setPage("login")}
@@ -148,80 +113,51 @@ function App() {
         </div>
       )}
 
-      {/* LOGIN */}
       {page === "login" && (
         <div className="box">
 
           <h2>Login</h2>
 
           <input
-            type="email"
             placeholder="Email"
-            value={loginData.email}
             onChange={(e) =>
-              setLoginData({
-                ...loginData,
-                email: e.target.value,
-              })
+              setLoginEmail(e.target.value)
             }
           />
 
           <input
             type="password"
             placeholder="Password"
-            value={loginData.password}
             onChange={(e) =>
-              setLoginData({
-                ...loginData,
-                password: e.target.value,
-              })
+              setLoginPassword(e.target.value)
             }
           />
 
-          <button onClick={handleLogin}>
+          <button onClick={login}>
             Login
-          </button>
-
-          <p>
-            New user?
-          </p>
-
-          <button
-            onClick={() => setPage("register")}
-          >
-            Go To Register
           </button>
 
         </div>
       )}
 
-      {/* TASK MANAGER */}
       {page === "task" && (
         <div className="box">
 
           <h2>Create Task</h2>
 
           <input
-            type="text"
             placeholder="Task Name"
-            value={taskData.name}
+            value={taskName}
             onChange={(e) =>
-              setTaskData({
-                ...taskData,
-                name: e.target.value,
-              })
+              setTaskName(e.target.value)
             }
           />
 
           <input
-            type="text"
             placeholder="Assigned To"
-            value={taskData.assignedTo}
+            value={assignedTo}
             onChange={(e) =>
-              setTaskData({
-                ...taskData,
-                assignedTo: e.target.value,
-              })
+              setAssignedTo(e.target.value)
             }
           />
 
@@ -230,7 +166,9 @@ function App() {
           </button>
 
           <button
-            onClick={() => setPage("dashboard")}
+            onClick={() =>
+              setPage("dashboard")
+            }
           >
             Open Dashboard
           </button>
@@ -238,44 +176,26 @@ function App() {
         </div>
       )}
 
-      {/* DASHBOARD */}
       {page === "dashboard" && (
         <div className="box">
 
           <h2>Dashboard</h2>
 
-          <h3>
-            Total Tasks : {tasks.length}
-          </h3>
-
           {tasks.map((task, index) => (
-            <div
-              className="task"
-              key={index}
-            >
+            <div key={index}>
               <p>
-                <b>Task:</b> {task.name}
-              </p>
-
-              <p>
-                <b>Assigned To:</b>{" "}
+                {task.taskName} -
                 {task.assignedTo}
               </p>
             </div>
           ))}
 
           <button
-            onClick={() => setPage("task")}
+            onClick={() =>
+              setPage("task")
+            }
           >
             Go To Task Manager
-          </button>
-
-          <button
-            style={{
-              background: "red",
-            }}
-          >
-            Finish Project
           </button>
 
         </div>
