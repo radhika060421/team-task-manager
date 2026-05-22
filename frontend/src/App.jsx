@@ -5,7 +5,6 @@ function App() {
 
   const [page, setPage] = useState("register");
 
-  const [users, setUsers] = useState([]);
   const [tasks, setTasks] = useState([]);
 
   const [showThankYou, setShowThankYou] = useState(false);
@@ -22,19 +21,32 @@ function App() {
   // REGISTER
   const register = () => {
 
-    const existingUser = users.find(
-      (u) => u.email === email
-    );
+    const savedUsers =
+      JSON.parse(
+        localStorage.getItem("users")
+      ) || [];
+
+    const existingUser =
+      savedUsers.find(
+        (u) => u.email === email
+      );
 
     if (existingUser) {
+
       alert("User already exists");
       return;
+
     }
 
-    setUsers([
-      ...users,
+    const newUsers = [
+      ...savedUsers,
       { email, password }
-    ]);
+    ];
+
+    localStorage.setItem(
+      "users",
+      JSON.stringify(newUsers)
+    );
 
     alert("Registered Successfully");
 
@@ -44,7 +56,12 @@ function App() {
   // LOGIN
   const login = () => {
 
-    const user = users.find(
+    const savedUsers =
+      JSON.parse(
+        localStorage.getItem("users")
+      ) || [];
+
+    const user = savedUsers.find(
       (u) =>
         u.email === loginEmail &&
         u.password === loginPassword
@@ -58,7 +75,7 @@ function App() {
 
     } else {
 
-      alert("Please Register First");
+      alert("Wrong Email or Password");
 
     }
   };
@@ -70,8 +87,10 @@ function App() {
       taskName === "" ||
       assignedTo === ""
     ) {
+
       alert("Fill all fields");
       return;
+
     }
 
     setTasks([
@@ -217,7 +236,7 @@ function App() {
             Save Task
           </button>
 
-          {/* SAVED TASKS BELOW */}
+          {/* SAVED TASKS */}
           {tasks.map((task, index) => (
 
             <div
