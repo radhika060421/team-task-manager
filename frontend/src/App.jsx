@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.css";
 
 function App() {
+
   const [page, setPage] = useState("register");
 
   const [users, setUsers] = useState([]);
@@ -17,7 +18,9 @@ function App() {
   const [taskName, setTaskName] = useState("");
   const [assignedTo, setAssignedTo] = useState("");
 
+  // REGISTER
   const register = () => {
+
     const existingUser = users.find(
       (u) => u.email === email
     );
@@ -29,14 +32,17 @@ function App() {
 
     setUsers([
       ...users,
-      { name, email, password },
+      { name, email, password }
     ]);
 
     alert("Registered Successfully");
+
     setPage("login");
   };
 
+  // LOGIN
   const login = () => {
+
     const user = users.find(
       (u) =>
         u.email === loginEmail &&
@@ -44,15 +50,26 @@ function App() {
     );
 
     if (user) {
+
       alert("Login Successful");
+
+      // IMPORTANT
       setPage("task");
+
     } else {
+
       alert("Invalid Email or Password");
+
     }
   };
 
+  // CREATE TASK
   const createTask = () => {
-    if (!taskName || !assignedTo) {
+
+    if (
+      taskName === "" ||
+      assignedTo === ""
+    ) {
       alert("Fill all fields");
       return;
     }
@@ -73,10 +90,13 @@ function App() {
 
   return (
     <div className="app">
+
       <h1>Team Task Manager</h1>
 
+      {/* REGISTER */}
       {page === "register" && (
         <div className="box">
+
           <h2>Register</h2>
 
           <input
@@ -108,15 +128,20 @@ function App() {
           <p>Already have account?</p>
 
           <button
-            onClick={() => setPage("login")}
+            onClick={() =>
+              setPage("login")
+            }
           >
             Go To Login
           </button>
+
         </div>
       )}
 
+      {/* LOGIN */}
       {page === "login" && (
         <div className="box">
+
           <h2>Login</h2>
 
           <input
@@ -137,11 +162,14 @@ function App() {
           <button onClick={login}>
             Login
           </button>
+
         </div>
       )}
 
+      {/* TASK */}
       {page === "task" && (
         <div className="box">
+
           <h2>Create Task</h2>
 
           <input
@@ -171,24 +199,35 @@ function App() {
           >
             Open Dashboard
           </button>
+
         </div>
       )}
 
+      {/* DASHBOARD */}
       {page === "dashboard" && (
         <div className="box">
+
           <h2>Dashboard</h2>
 
-          <h3>Total Tasks: {tasks.length}</h3>
+          <h3>
+            Total Tasks : {tasks.length}
+          </h3>
 
           {tasks.map((task, index) => (
-            <div key={index} className="taskCard">
+            <div
+              key={index}
+              className="task"
+            >
+
               <p>
                 <b>{task.taskName}</b>
               </p>
 
               <p>
-                Assigned To : {task.assignedTo}
+                Assigned To :
+                {task.assignedTo}
               </p>
+
             </div>
           ))}
 
@@ -199,8 +238,21 @@ function App() {
           >
             Go To Task Manager
           </button>
+
+          <button
+            style={{
+              background: "red",
+            }}
+            onClick={() =>
+              alert("Thank You 😄")
+            }
+          >
+            Finish Project
+          </button>
+
         </div>
       )}
+
     </div>
   );
 }
