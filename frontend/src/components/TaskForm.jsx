@@ -1,9 +1,8 @@
 import { useState } from "react";
 
-function TaskForm() {
+function TaskForm({ tasks, setTasks }) {
   const [taskName, setTaskName] = useState("");
   const [assignedTo, setAssignedTo] = useState("");
-  const [tasks, setTasks] = useState([]);
 
   const addTask = () => {
     const newTask = {
@@ -24,7 +23,9 @@ function TaskForm() {
       <input
         placeholder="Task Name"
         value={taskName}
-        onChange={(e) => setTaskName(e.target.value)}
+        onChange={(e) =>
+          setTaskName(e.target.value)
+        }
       />
 
       <br /><br />
@@ -32,7 +33,9 @@ function TaskForm() {
       <input
         placeholder="Assigned To"
         value={assignedTo}
-        onChange={(e) => setAssignedTo(e.target.value)}
+        onChange={(e) =>
+          setAssignedTo(e.target.value)
+        }
       />
 
       <br /><br />

@@ -5,80 +5,122 @@ import Dashboard from "./Dashboard";
 import TaskForm from "./components/TaskForm";
 
 function App() {
-  const [page, setPage] = useState("login");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [page, setPage] = useState("register");
+
+  const [registeredUser, setRegisteredUser] = useState(null);
+
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [tasks, setTasks] = useState([]);
+
+  // REGISTER
+  const handleRegister = (name, email, password) => {
+    setRegisteredUser({
+      name,
+      email,
+      password,
+    });
+
+    alert("Registration Successful!");
+
+    setPage("login");
+  };
+
+  // LOGIN
+  const handleLogin = () => {
+    if (
+      registeredUser &&
+      loginData.email === registeredUser.email &&
+      loginData.password === registeredUser.password
+    ) {
+      alert("Login Successful!");
+      setPage("task");
+    } else {
+      alert("Please Register First OR Wrong Details");
+    }
+  };
 
   return (
     <div style={{ textAlign: "center", padding: "20px" }}>
       <h1>Team Task Manager</h1>
 
-      {/* Navigation Buttons */}
-      <button onClick={() => setPage("login")}>
-        Login
-      </button>
-
+      {/* Navigation */}
       <button onClick={() => setPage("register")}>
         Register
       </button>
 
-      {isLoggedIn && (
-        <>
-          <button onClick={() => setPage("task")}>
-            Task Manager
-          </button>
+      <button onClick={() => setPage("login")}>
+        Login
+      </button>
 
-          <button onClick={() => setPage("dashboard")}>
-            Dashboard
-          </button>
-        </>
-      )}
+      <button onClick={() => setPage("task")}>
+        Task Manager
+      </button>
+
+      <button onClick={() => setPage("dashboard")}>
+        Dashboard
+      </button>
 
       <hr />
+
+      {/* REGISTER PAGE */}
+      {page === "register" && (
+        <Register
+          handleRegister={handleRegister}
+        />
+      )}
 
       {/* LOGIN PAGE */}
       {page === "login" && (
         <div>
-          <Login />
+          <h2>Login</h2>
 
-          <br />
+          <input
+            type="email"
+            placeholder="Email"
+            onChange={(e) =>
+              setLoginData({
+                ...loginData,
+                email: e.target.value,
+              })
+            }
+          />
 
-          <button
-            onClick={() => {
-              setIsLoggedIn(true);
-              setPage("task");
-            }}
-          >
-            Enter App
-          </button>
-        </div>
-      )}
+          <br /><br />
 
-      {/* REGISTER PAGE */}
-      {page === "register" && (
-        <div>
-          <Register />
+          <input
+            type="password"
+            placeholder="Password"
+            onChange={(e) =>
+              setLoginData({
+                ...loginData,
+                password: e.target.value,
+              })
+            }
+          />
 
-          <br />
+          <br /><br />
 
-          <button
-            onClick={() => {
-              setIsLoggedIn(true);
-              setPage("task");
-            }}
-          >
-            Register & Continue
+          <button onClick={handleLogin}>
+            Login
           </button>
         </div>
       )}
 
       {/* TASK MANAGER */}
-      {page === "task" && isLoggedIn && (
-        <TaskForm />
+      {page === "task" && (
+        <TaskForm
+          tasks={tasks}
+          setTasks={setTasks}
+        />
       )}
 
       {/* DASHBOARD */}
-      {page === "dashboard" && isLoggedIn && (
-        <Dashboard />
+      {page === "dashboard" && (
+        <Dashboard tasks={tasks} />
       )}
     </div>
   );

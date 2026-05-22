@@ -1,11 +1,18 @@
-export default function Dashboard() {
+
+function Dashboard({ tasks }) {
   return (
     <div>
-      <h1>Dashboard</h1>
+      <h2>Dashboard</h2>
 
-      <h3>Total Tasks: 2</h3>
-      <h3>Completed: 1</h3>
-      <h3>Pending: 1</h3>
+      <h3>Total Tasks: {tasks.length}</h3>
+
+      {tasks.map((task, index) => (
+        <p key={index}>
+          {task.name} - {task.assigned}
+        </p>
+      ))}
     </div>
   );
 }
+
+export default Dashboard;
