@@ -123,7 +123,8 @@ function App() {
       {/* DASHBOARD */}
       {page === "dashboard" && (
         <div className="card">
-          <Dashboard tasks={tasks} />
+          <Dashboard tasks={tasks}
+          setPage={setPage} />
 
           <br />
 
