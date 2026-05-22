@@ -32,7 +32,7 @@ function App() {
 
     setUsers([
       ...users,
-      { name, email, password }
+      { email, password }
     ]);
 
     alert("Registered Successfully");
@@ -53,12 +53,12 @@ function App() {
 
       alert("Login Successful");
 
-      // IMPORTANT
+      // LOGIN PACHI DIRECT TASK PAGE
       setPage("task");
 
     } else {
 
-      alert("Invalid Email or Password");
+      alert("Wrong Email or Password");
 
     }
   };
@@ -125,14 +125,16 @@ function App() {
             Register
           </button>
 
-          <p>Already have account?</p>
+          <p>
+            Do you have account?
+          </p>
 
           <button
             onClick={() =>
               setPage("login")
             }
           >
-            Go To Login
+            Login
           </button>
 
         </div>
@@ -210,17 +212,21 @@ function App() {
           <h2>Dashboard</h2>
 
           <h3>
-            Total Tasks : {tasks.length}
+            Total Tasks :
+            {tasks.length}
           </h3>
 
           {tasks.map((task, index) => (
+
             <div
               key={index}
               className="task"
             >
 
               <p>
-                <b>{task.taskName}</b>
+                <b>
+                  {task.taskName}
+                </b>
               </p>
 
               <p>
@@ -229,6 +235,7 @@ function App() {
               </p>
 
             </div>
+
           ))}
 
           <button
