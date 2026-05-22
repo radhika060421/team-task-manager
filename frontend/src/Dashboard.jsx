@@ -1,55 +1,63 @@
-<h2>Current Tasks</h2>
+{/* DASHBOARD */}
+{page === "dashboard" && (
+  <div className="box">
 
-{(JSON.parse(
-  localStorage.getItem(
-    localStorage.getItem(
-      "currentUser"
-    ) + "_current"
-  )
-) || []).map((task, index) => (
+    <h2>Dashboard</h2>
 
-  <div
-    key={index}
-    className="task"
-  >
+    <button
+      onClick={() =>
+        setPage("previous")
+      }
+    >
+      Previous Tasks
+    </button>
 
-    <p>
-      <b>{task.taskName}</b>
-    </p>
+    <h2>Current Tasks</h2>
 
-    <p>
-      Assigned To :
-      {task.assignedTo}
-    </p>
+    {(JSON.parse(
+      localStorage.getItem(
+        localStorage.getItem(
+          "currentUser"
+        ) + "_current"
+      )
+    ) || []).map((task, index) => (
+
+      <div
+        key={index}
+        className="task"
+      >
+
+        <p>
+          <b>{task.taskName}</b>
+        </p>
+
+        <p>
+          Assigned To :
+          {task.assignedTo}
+        </p>
+
+      </div>
+
+    ))}
+
+    <button
+      onClick={() =>
+        setPage("task")
+      }
+    >
+      Go To Task Manager
+    </button>
+
+    <button
+      style={{
+        background: "red",
+      }}
+      onClick={() =>
+        setShowThankYou(true)
+      }
+    >
+      Finish Project
+    </button>
 
   </div>
-
-))}
-
-<h2>Previous Tasks</h2>
-
-{(JSON.parse(
-  localStorage.getItem(
-    localStorage.getItem(
-      "currentUser"
-    ) + "_previous"
-  )
-) || []).map((task, index) => (
-
-  <div
-    key={index}
-    className="task"
-  >
-
-    <p>
-      <b>{task.taskName}</b>
-    </p>
-
-    <p>
-      Assigned To :
-      {task.assignedTo}
-    </p>
-
-  </div>
-
-))}
+)}
