@@ -63,7 +63,7 @@ function App() {
     }
   };
 
-  // CREATE TASK
+  // SAVE TASK
   const createTask = () => {
 
     if (
@@ -88,17 +88,28 @@ function App() {
     alert("Task Saved");
   };
 
+  // THANK YOU PAGE
+  if (showThankYou) {
+
+    return (
+      <div className="app">
+
+        <div className="box">
+
+          <h1>
+            Thank You 😄
+          </h1>
+
+        </div>
+
+      </div>
+    );
+  }
+
   return (
     <div className="app">
 
       <h1>Team Task Manager</h1>
-
-      {/* THANK YOU */}
-      {showThankYou && (
-        <div className="thankyou">
-          <h1>Thank You 😄</h1>
-        </div>
-      )}
 
       {/* REGISTER */}
       {page === "register" && (
@@ -205,6 +216,27 @@ function App() {
           <button onClick={createTask}>
             Save Task
           </button>
+
+          {/* SAVED TASKS BELOW */}
+          {tasks.map((task, index) => (
+
+            <div
+              key={index}
+              className="task"
+            >
+
+              <p>
+                <b>{task.taskName}</b>
+              </p>
+
+              <p>
+                Assigned To :
+                {task.assignedTo}
+              </p>
+
+            </div>
+
+          ))}
 
           <button
             onClick={() =>
