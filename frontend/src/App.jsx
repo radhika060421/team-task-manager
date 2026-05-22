@@ -3,6 +3,7 @@ import "./App.css";
 
 function App() {
   const [page, setPage] = useState("register");
+
   const [users, setUsers] = useState([]);
   const [tasks, setTasks] = useState([]);
 
@@ -32,7 +33,6 @@ function App() {
     ]);
 
     alert("Registered Successfully");
-
     setPage("login");
   };
 
@@ -52,6 +52,11 @@ function App() {
   };
 
   const createTask = () => {
+    if (!taskName || !assignedTo) {
+      alert("Fill all fields");
+      return;
+    }
+
     setTasks([
       ...tasks,
       {
@@ -68,12 +73,10 @@ function App() {
 
   return (
     <div className="app">
-
       <h1>Team Task Manager</h1>
 
       {page === "register" && (
         <div className="box">
-
           <h2>Register</h2>
 
           <input
@@ -109,13 +112,11 @@ function App() {
           >
             Go To Login
           </button>
-
         </div>
       )}
 
       {page === "login" && (
         <div className="box">
-
           <h2>Login</h2>
 
           <input
@@ -136,13 +137,11 @@ function App() {
           <button onClick={login}>
             Login
           </button>
-
         </div>
       )}
 
       {page === "task" && (
         <div className="box">
-
           <h2>Create Task</h2>
 
           <input
@@ -172,20 +171,23 @@ function App() {
           >
             Open Dashboard
           </button>
-
         </div>
       )}
 
       {page === "dashboard" && (
         <div className="box">
-
           <h2>Dashboard</h2>
 
+          <h3>Total Tasks: {tasks.length}</h3>
+
           {tasks.map((task, index) => (
-            <div key={index}>
+            <div key={index} className="taskCard">
               <p>
-                {task.taskName} -
-                {task.assignedTo}
+                <b>{task.taskName}</b>
+              </p>
+
+              <p>
+                Assigned To : {task.assignedTo}
               </p>
             </div>
           ))}
@@ -197,7 +199,6 @@ function App() {
           >
             Go To Task Manager
           </button>
-
         </div>
       )}
     </div>
