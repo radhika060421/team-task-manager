@@ -1,5 +1,6 @@
 import { useState } from "react";
-import Login from "./Login";
+import "./App.css";
+
 import Register from "./Register";
 import Dashboard from "./Dashboard";
 import TaskForm from "./components/TaskForm";
@@ -25,7 +26,6 @@ function App() {
     });
 
     alert("Registration Successful!");
-
     setPage("login");
   };
 
@@ -39,43 +39,33 @@ function App() {
       alert("Login Successful!");
       setPage("task");
     } else {
-      alert("Please Register First OR Wrong Details");
+      alert("Wrong Details OR Register First");
     }
   };
 
   return (
-    <div style={{ textAlign: "center", padding: "20px" }}>
+    <div className="container">
       <h1>Team Task Manager</h1>
 
-      {/* Navigation */}
-      <button onClick={() => setPage("register")}>
-        Register
-      </button>
-
-      <button onClick={() => setPage("login")}>
-        Login
-      </button>
-
-      <button onClick={() => setPage("task")}>
-        Task Manager
-      </button>
-
-      <button onClick={() => setPage("dashboard")}>
-        Dashboard
-      </button>
-
-      <hr />
-
-      {/* REGISTER PAGE */}
+      {/* REGISTER */}
       {page === "register" && (
-        <Register
-          handleRegister={handleRegister}
-        />
+        <div className="card">
+          <Register handleRegister={handleRegister} />
+
+          <br />
+
+          <button
+            className="switch-btn"
+            onClick={() => setPage("login")}
+          >
+            Go To Login
+          </button>
+        </div>
       )}
 
-      {/* LOGIN PAGE */}
+      {/* LOGIN */}
       {page === "login" && (
-        <div>
+        <div className="card">
           <h2>Login</h2>
 
           <input
@@ -89,8 +79,6 @@ function App() {
             }
           />
 
-          <br /><br />
-
           <input
             type="password"
             placeholder="Password"
@@ -102,25 +90,50 @@ function App() {
             }
           />
 
-          <br /><br />
-
           <button onClick={handleLogin}>
             Login
+          </button>
+
+          <br /><br />
+
+          <button
+            className="switch-btn"
+            onClick={() => setPage("register")}
+          >
+            Back To Register
           </button>
         </div>
       )}
 
       {/* TASK MANAGER */}
       {page === "task" && (
-        <TaskForm
-          tasks={tasks}
-          setTasks={setTasks}
-        />
+        <div className="card">
+          <TaskForm tasks={tasks} setTasks={setTasks} />
+
+          <br />
+
+          <button
+            onClick={() => setPage("dashboard")}
+          >
+            Open Dashboard
+          </button>
+        </div>
       )}
 
       {/* DASHBOARD */}
       {page === "dashboard" && (
-        <Dashboard tasks={tasks} />
+        <div className="card">
+          <Dashboard tasks={tasks} />
+
+          <br />
+
+          <button
+            className="switch-btn"
+            onClick={() => setPage("task")}
+          >
+            Back To Task Manager
+          </button>
+        </div>
       )}
     </div>
   );
