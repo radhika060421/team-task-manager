@@ -85,7 +85,7 @@ function App() {
     }
   };
 
-  // SAVE TASK
+  // CREATE TASK
   const createTask = () => {
 
     if (
@@ -103,34 +103,15 @@ function App() {
         "currentUser"
       );
 
-    const oldCurrent =
+    const oldTasks =
       JSON.parse(
         localStorage.getItem(
           currentUser + "_current"
         )
       ) || [];
 
-    const oldPrevious =
-      JSON.parse(
-        localStorage.getItem(
-          currentUser + "_previous"
-        )
-      ) || [];
-
-    // OLD current => previous
-    if (oldCurrent.length > 0) {
-
-      localStorage.setItem(
-        currentUser + "_previous",
-        JSON.stringify([
-          ...oldPrevious,
-          ...oldCurrent,
-        ])
-      );
-    }
-
-    // NEW current task
-    const newCurrent = [
+    const updatedTasks = [
+      ...oldTasks,
       {
         taskName,
         assignedTo,
@@ -139,10 +120,10 @@ function App() {
 
     localStorage.setItem(
       currentUser + "_current",
-      JSON.stringify(newCurrent)
+      JSON.stringify(updatedTasks)
     );
 
-    setTasks(newCurrent);
+    setTasks(updatedTasks);
 
     setTaskName("");
     setAssignedTo("");
@@ -296,14 +277,6 @@ function App() {
 
           <h2>Dashboard</h2>
 
-          <button
-            onClick={() =>
-              setPage("previous")
-            }
-          >
-            Previous Tasks
-          </button>
-
           <h2>Current Tasks</h2>
 
           {(JSON.parse(
@@ -352,51 +325,6 @@ function App() {
           </button>
 
         </div>
-      )}
-
-      {/* PREVIOUS PAGE */}
-      {page === "previous" && (
-
-        <div className="box">
-
-          <h2>Previous Tasks</h2>
-
-          {(JSON.parse(
-            localStorage.getItem(
-              localStorage.getItem(
-                "currentUser"
-              ) + "_previous"
-            )
-          ) || []).map((task, index) => (
-
-            <div
-              key={index}
-              className="task"
-            >
-
-              <p>
-                <b>{task.taskName}</b>
-              </p>
-
-              <p>
-                Assigned To :
-                {task.assignedTo}
-              </p>
-
-            </div>
-
-          ))}
-
-          <button
-            onClick={() =>
-              setPage("dashboard")
-            }
-          >
-            Back
-          </button>
-
-        </div>
-
       )}
 
     </div>
