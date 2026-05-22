@@ -1,10 +1,15 @@
 import { useState } from "react";
 
-function TaskForm({ tasks, setTasks }) {
+function TaskForm({ tasks, setTasks, setPage }) {
   const [taskName, setTaskName] = useState("");
   const [assignedTo, setAssignedTo] = useState("");
 
   const addTask = () => {
+    if (taskName === "" || assignedTo === "") {
+      alert("Please Fill All Fields");
+      return;
+    }
+
     const newTask = {
       name: taskName,
       assigned: assignedTo,
@@ -28,8 +33,6 @@ function TaskForm({ tasks, setTasks }) {
         }
       />
 
-      <br /><br />
-
       <input
         placeholder="Assigned To"
         value={assignedTo}
@@ -38,19 +41,18 @@ function TaskForm({ tasks, setTasks }) {
         }
       />
 
-      <br /><br />
-
       <button onClick={addTask}>
         Create Task
       </button>
 
-      <h2>Tasks</h2>
+      <br /><br />
 
-      {tasks.map((task, index) => (
-        <p key={index}>
-          {task.name} - {task.assigned}
-        </p>
-      ))}
+      <button
+        className="switch-btn"
+        onClick={() => setPage("dashboard")}
+      >
+        Show Previous Tasks
+      </button>
     </div>
   );
 }
