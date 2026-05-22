@@ -1,57 +1,33 @@
-import { useState } from "react";
+import Login from "./Login";
+import Register from "./Register";
+import Dashboard from "./Dashboard";
 
 function App() {
-  const [taskName, setTaskName] = useState("");
-  const [assignedTo, setAssignedTo] = useState("");
-  const [tasks, setTasks] = useState([]);
-
-  const createTask = () => {
-    const newTask = {
-      name: taskName,
-      assigned: assignedTo
-    };
-
-    setTasks([...tasks, newTask]);
-
-    setTaskName("");
-    setAssignedTo("");
-  };
-
   return (
-    <div style={{ padding: "40px" }}>
+    <div>
+      <Login />
+      <hr />
+
+      <Register />
+      <hr />
+
+      <Dashboard />
+      <hr />
+
       <h1>Team Task Manager</h1>
 
-      <h2>Create Task</h2>
-
-      <input
-        placeholder="Task Name"
-        value={taskName}
-        onChange={(e) => setTaskName(e.target.value)}
-      />
-
+      <input placeholder="Task Name" />
       <br /><br />
 
-      <input
-        placeholder="Assigned To"
-        value={assignedTo}
-        onChange={(e) => setAssignedTo(e.target.value)}
-      />
-
+      <input placeholder="Assigned To" />
       <br /><br />
 
-      <button onClick={createTask}>Create Task</button>
-
-      <hr />
+      <button>Create Task</button>
 
       <h2>Tasks</h2>
 
-      <ul>
-        {tasks.map((task, index) => (
-          <li key={index}>
-            {task.name} - {task.assigned}
-          </li>
-        ))}
-      </ul>
+      <p>Login Page - Aarush</p>
+      <p>Registration - Ansh</p>
     </div>
   );
 }
