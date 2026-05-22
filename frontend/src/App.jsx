@@ -69,6 +69,11 @@ function App() {
 
     if (user) {
 
+      localStorage.setItem(
+        "currentUser",
+        loginEmail
+      );
+
       alert("Login Successful");
 
       setPage("task");
@@ -93,13 +98,51 @@ function App() {
 
     }
 
-    setTasks([
-      ...tasks,
+    const currentUser =
+      localStorage.getItem(
+        "currentUser"
+      );
+
+    const oldCurrent =
+      JSON.parse(
+        localStorage.getItem(
+          currentUser + "_current"
+        )
+      ) || [];
+
+    const oldPrevious =
+      JSON.parse(
+        localStorage.getItem(
+          currentUser + "_previous"
+        )
+      ) || [];
+
+    // OLD current => previous
+    if (oldCurrent.length > 0) {
+
+      localStorage.setItem(
+        currentUser + "_previous",
+        JSON.stringify([
+          ...oldPrevious,
+          ...oldCurrent,
+        ])
+      );
+    }
+
+    // NEW current task
+    const newCurrent = [
       {
         taskName,
         assignedTo,
       },
-    ]);
+    ];
+
+    localStorage.setItem(
+      currentUser + "_current",
+      JSON.stringify(newCurrent)
+    );
+
+    setTasks(newCurrent);
 
     setTaskName("");
     setAssignedTo("");
@@ -236,8 +279,32 @@ function App() {
             Save Task
           </button>
 
-          {/* SAVED TASKS */}
-          {tasks.map((task, index) => (
+          <button
+            onClick={() =>
+              setPage("dashboard")
+            }
+          >
+            Open Dashboard
+          </button>
+
+        </div>
+      )}
+
+      {/* DASHBOARD */}
+      {page === "dashboard" && (
+        <div className="box">
+
+          <h2>Dashboard</h2>
+
+          <h2>Current Tasks</h2>
+
+          {(JSON.parse(
+            localStorage.getItem(
+              localStorage.getItem(
+                "currentUser"
+              ) + "_current"
+            )
+          ) || []).map((task, index) => (
 
             <div
               key={index}
@@ -257,28 +324,15 @@ function App() {
 
           ))}
 
-          <button
-            onClick={() =>
-              setPage("dashboard")
-            }
-          >
-            Open Dashboard
-          </button>
+          <h2>Previous Tasks</h2>
 
-        </div>
-      )}
-
-      {/* DASHBOARD */}
-      {page === "dashboard" && (
-        <div className="box">
-
-          <h2>Dashboard</h2>
-
-          <h3>
-            Previous Tasks
-          </h3>
-
-          {tasks.map((task, index) => (
+          {(JSON.parse(
+            localStorage.getItem(
+              localStorage.getItem(
+                "currentUser"
+              ) + "_previous"
+            )
+          ) || []).map((task, index) => (
 
             <div
               key={index}

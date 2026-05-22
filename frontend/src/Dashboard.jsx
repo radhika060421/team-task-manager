@@ -1,67 +1,55 @@
-import { useState } from "react";
+<h2>Current Tasks</h2>
 
-function Dashboard({ tasks, setPage }) {
-  const [showTasks, setShowTasks] = useState(false);
+{(JSON.parse(
+  localStorage.getItem(
+    localStorage.getItem(
+      "currentUser"
+    ) + "_current"
+  )
+) || []).map((task, index) => (
 
-  return (
-    <div>
-      <h2>Dashboard</h2>
+  <div
+    key={index}
+    className="task"
+  >
 
-      <h3>Total Tasks: {tasks.length}</h3>
+    <p>
+      <b>{task.taskName}</b>
+    </p>
 
-      {/* BUTTONS */}
-      <button
-        className="switch-btn"
-        onClick={() => setPage("task")}
-      >
-        Go To Task Manager
-      </button>
+    <p>
+      Assigned To :
+      {task.assignedTo}
+    </p>
 
-      <br /><br />
+  </div>
 
-      <button
-        onClick={() => setShowTasks(!showTasks)}
-      >
-        Show Previous Tasks
-      </button>
+))}
 
-      <br /><br />
+<h2>Previous Tasks</h2>
 
-      {/* TASKS */}
-      {showTasks && (
-        <div>
-          {tasks.length === 0 ? (
-            <p>No Previous Tasks</p>
-          ) : (
-            tasks.map((task, index) => (
-              <div
-                className="task-item"
-                key={index}
-              >
-                <h4>{task.name}</h4>
+{(JSON.parse(
+  localStorage.getItem(
+    localStorage.getItem(
+      "currentUser"
+    ) + "_previous"
+  )
+) || []).map((task, index) => (
 
-                <p>
-                  Assigned To :
-                  <b> {task.assigned}</b>
-                </p>
-              </div>
-            ))
-          )}
-        </div>
-      )}
+  <div
+    key={index}
+    className="task"
+  >
 
-      <br />
+    <p>
+      <b>{task.taskName}</b>
+    </p>
 
-      <button
-        style={{
-          background: "red",
-          color: "white",
-        }}
-      >
-        Finish Project ✅
-      </button>
-    </div>
-  );
-}
+    <p>
+      Assigned To :
+      {task.assignedTo}
+    </p>
 
-export default Dashboard;
+  </div>
+
+))}
