@@ -2,56 +2,84 @@ import { useState } from "react";
 import Login from "./Login";
 import Register from "./Register";
 import Dashboard from "./Dashboard";
+import TaskForm from "./components/TaskForm";
 
 function App() {
   const [page, setPage] = useState("login");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
-    <div style={{ textAlign: "center" }}>
+    <div style={{ textAlign: "center", padding: "20px" }}>
       <h1>Team Task Manager</h1>
 
       {/* Navigation Buttons */}
-      <button onClick={() => setPage("login")}>Login</button>
+      <button onClick={() => setPage("login")}>
+        Login
+      </button>
 
       <button onClick={() => setPage("register")}>
         Register
       </button>
 
-      <button onClick={() => setPage("task")}>
-        Task Manager
-      </button>
+      {isLoggedIn && (
+        <>
+          <button onClick={() => setPage("task")}>
+            Task Manager
+          </button>
 
-      <button onClick={() => setPage("dashboard")}>
-        Dashboard
-      </button>
+          <button onClick={() => setPage("dashboard")}>
+            Dashboard
+          </button>
+        </>
+      )}
 
       <hr />
 
-      {/* Pages */}
-      {page === "login" && <Login />}
-
-      {page === "register" && <Register />}
-
-      {page === "task" && (
+      {/* LOGIN PAGE */}
+      {page === "login" && (
         <div>
-          <h2>Create Task</h2>
+          <Login />
 
-          <input placeholder="Task Name" />
-          <br /><br />
+          <br />
 
-          <input placeholder="Assigned To" />
-          <br /><br />
-
-          <button>Create Task</button>
-
-          <h2>Tasks</h2>
-
-          <p>Login Page - Aarush</p>
-          <p>Registration - Ansh</p>
+          <button
+            onClick={() => {
+              setIsLoggedIn(true);
+              setPage("task");
+            }}
+          >
+            Enter App
+          </button>
         </div>
       )}
 
-      {page === "dashboard" && <Dashboard />}
+      {/* REGISTER PAGE */}
+      {page === "register" && (
+        <div>
+          <Register />
+
+          <br />
+
+          <button
+            onClick={() => {
+              setIsLoggedIn(true);
+              setPage("task");
+            }}
+          >
+            Register & Continue
+          </button>
+        </div>
+      )}
+
+      {/* TASK MANAGER */}
+      {page === "task" && isLoggedIn && (
+        <TaskForm />
+      )}
+
+      {/* DASHBOARD */}
+      {page === "dashboard" && isLoggedIn && (
+        <Dashboard />
+      )}
     </div>
   );
 }
