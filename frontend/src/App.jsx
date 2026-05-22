@@ -8,7 +8,8 @@ function App() {
   const [users, setUsers] = useState([]);
   const [tasks, setTasks] = useState([]);
 
-  const [name, setName] = useState("");
+  const [showThankYou, setShowThankYou] = useState(false);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -53,12 +54,11 @@ function App() {
 
       alert("Login Successful");
 
-      // LOGIN PACHI DIRECT TASK PAGE
       setPage("task");
 
     } else {
 
-      alert("Wrong Email or Password");
+      alert("Please Register First");
 
     }
   };
@@ -85,7 +85,7 @@ function App() {
     setTaskName("");
     setAssignedTo("");
 
-    alert("Task Created");
+    alert("Task Saved");
   };
 
   return (
@@ -93,18 +93,18 @@ function App() {
 
       <h1>Team Task Manager</h1>
 
+      {/* THANK YOU */}
+      {showThankYou && (
+        <div className="thankyou">
+          <h1>Thank You 😄</h1>
+        </div>
+      )}
+
       {/* REGISTER */}
       {page === "register" && (
         <div className="box">
 
           <h2>Register</h2>
-
-          <input
-            placeholder="Name"
-            onChange={(e) =>
-              setName(e.target.value)
-            }
-          />
 
           <input
             placeholder="Email"
@@ -126,7 +126,7 @@ function App() {
           </button>
 
           <p>
-            Do you have account?
+            Already have account?
           </p>
 
           <button
@@ -165,6 +165,18 @@ function App() {
             Login
           </button>
 
+          <p>
+            New User?
+          </p>
+
+          <button
+            onClick={() =>
+              setPage("register")
+            }
+          >
+            Register
+          </button>
+
         </div>
       )}
 
@@ -191,7 +203,7 @@ function App() {
           />
 
           <button onClick={createTask}>
-            Create Task
+            Save Task
           </button>
 
           <button
@@ -212,8 +224,7 @@ function App() {
           <h2>Dashboard</h2>
 
           <h3>
-            Total Tasks :
-            {tasks.length}
+            Previous Tasks
           </h3>
 
           {tasks.map((task, index) => (
@@ -224,9 +235,7 @@ function App() {
             >
 
               <p>
-                <b>
-                  {task.taskName}
-                </b>
+                <b>{task.taskName}</b>
               </p>
 
               <p>
@@ -251,7 +260,7 @@ function App() {
               background: "red",
             }}
             onClick={() =>
-              alert("Thank You 😄")
+              setShowThankYou(true)
             }
           >
             Finish Project
